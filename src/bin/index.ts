@@ -3,7 +3,7 @@ import path, * as Path from 'path'
 import * as P from 'ts-prime'
 import chokidar from 'chokidar'
 import liveServer from 'live-server'
-import { generatePdfBase } from '@barbora-express/pdf-components'
+import { generatePdfBase } from '@digimuza/pdf-components'
 
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'

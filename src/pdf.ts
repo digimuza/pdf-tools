@@ -2,7 +2,7 @@ import * as P from 'ts-prime'
 import * as Jet from 'fs-jetpack'
 import { tmpNameSync } from 'tmp'
 import { PDFDocument } from 'pdf-lib'
-import { Content, flipDimensions } from '@barbora-express/pdf-components'
+import { Content, flipDimensions } from '@digimuza/pdf-components'
 
 const html_to_pdf = require('html-pdf-node')
 
