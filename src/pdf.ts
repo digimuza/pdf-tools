@@ -3,23 +3,18 @@ import * as Jet from 'fs-jetpack'
 import { tmpNameSync } from 'tmp'
 import { PDFDocument } from 'pdf-lib'
 import { Content, flipDimensions } from '@digimuza/pdf-components'
+import { AsyncIterable } from 'ix'
+const html_to_pdf = require('./html-to-pdf.js')
+import PDFMerger from 'pdf-merger-js'
 
-const html_to_pdf = require('html-pdf-node')
+async function mergePDF(pdfList: Buffer[], options: { output: string; logger?: Pick<Console, 'info' | 'error' | 'debug'> }) {
+	const merger = new PDFMerger()
 
-async function mergePDF(pdfList: Buffer[]) {
-	const pdfToMerge = [...pdfList]
-
-	const mergedPdf = await PDFDocument.create()
-	for (const pdfBytes of pdfToMerge) {
-		const pdf = await PDFDocument.load(pdfBytes)
-		const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
-		copiedPages.forEach((page) => {
-			mergedPdf.addPage(page)
-		})
+	for (const pdf of pdfList) {
+		merger.add(pdf)
 	}
-
-	const buffer = await mergedPdf.save()
-	return buffer
+	await merger.save(options.output)
+	options.logger?.info(`PDF stored to ${options.output}`)
 }
 
 async function singlePdf(content: Content) {
@@ -50,10 +45,24 @@ async function singlePdf(content: Content) {
  *
  * @returns {string} File to generated pdf file
  */
-export async function generate(args: Content[], output?: string) {
-	const sample = await Promise.all(args.map((c) => singlePdf(c)))
-	const mergedPDF = await mergePDF(sample)
-	const name = output ? Jet.path(process.cwd(), output) : tmpNameSync()
-	await Jet.writeAsync(name, mergedPDF)
+export async function generate(args: { content: Content[]; output?: string; logger: Pick<Console, 'info' | 'error' | 'debug'> }) {
+	let progress = 0
+	const pdfList = await AsyncIterable.from(args.content.map((e, index) => ({ ...e, index })))
+		.buffer(3)
+		.map((pdf) => {
+			return Promise.all(
+				pdf.map((c) => {
+					args.logger.info(`Generating (${c.index + 1}/${args.content.length}) page...`)
+					return singlePdf(c)
+				})
+			)
+		})
+		.toArray()
+	const mergedPDF = P.flatten(pdfList)
+	const name = args.output ? Jet.path(process.cwd(), args.output) : tmpNameSync()
+	await mergePDF(mergedPDF, {
+		logger: args.logger,
+		output: name,
+	})
 	return name
 }

@@ -3,7 +3,7 @@ import path, * as Path from 'path'
 import * as P from 'ts-prime'
 import chokidar from 'chokidar'
 import liveServer from 'live-server'
-import { generatePdfBase } from '@digimuza/pdf-components'
+import { Content, generatePdfBase } from '@digimuza/pdf-components'
 
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -32,7 +32,7 @@ export function root() {
 
 export async function servePDF() {
 	const args = await yargs(hideBin(process.argv))
-		.positional('file', {
+		.option('file', {
 			type: 'string',
 		})
 		.option('watch', {
@@ -48,7 +48,6 @@ export async function servePDF() {
 		console.log(`Please provide file argument: pdf-tools {file.tsx} [options]`)
 		process.exit(1)
 	}
-
 	const file = path.resolve(args.file)
 	if (args.watch) {
 		process.env.LIVE_SERVER = 'true'
@@ -56,7 +55,6 @@ export async function servePDF() {
 		await Jet.dir(tmpFolder)
 		const run = async () => {
 			const files = Object.keys(require.cache).filter((q) => !q.includes('node_modules'))
-			console.log(files)
 			for (const x of files) {
 				delete require.cache[x]
 			}
@@ -80,8 +78,19 @@ export async function servePDF() {
 		return
 	}
 	const component = require(file)
-	console.log('Generating PDF')
-	const pdf = await generate(component, args.out)
+	const x = component.default as Content[]
+	const zxc = x.map((e) => {
+		return {
+			...e,
+			content: generatePdfBase([e]),
+		}
+	})
+
+	const pdf = await generate({
+		content: zxc,
+		output: args.out,
+		logger: console,
+	})
 }
 
 servePDF()

@@ -10,6 +10,7 @@
         "declarationMap": true,
         "resolveJsonModule": true,
         "strict": true,
+        "allowJs": true,
         "strictFunctionTypes": false,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
