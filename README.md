@@ -6,7 +6,7 @@ This library helps with PDF generation tasks
 ## Installation
 
 ```bash
-yarn add @barbora-express/pdf
+yarn add @digimuza/pdf-tools
 ```
 
 ## Make your first PDF
@@ -29,7 +29,7 @@ pdf --watch pdf.test.ts
 ```
 
 ```typescript
-import { generate } from '@barbora-express/pdf'
+import { generate } from '@digimuza/pdf-tools'
 
 async function generatePDF() {
     const file = await generate([{ content: "this is my pdf" }])
