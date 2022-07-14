@@ -2,7 +2,8 @@ import * as P from 'ts-prime'
 import * as Jet from 'fs-jetpack'
 import { tmpNameSync } from 'tmp'
 import { PDFDocument } from 'pdf-lib'
-import { Content, flipDimensions } from '@digimuza/pdf-components'
+import { Content } from '@digimuza/pdf-components'
+import { flipDimensions } from '@digimuza/pdf-components/lib/utils'
 import { AsyncIterable } from 'ix'
 const html_to_pdf = require('./html-to-pdf.js')
 import PDFMerger from 'pdf-merger-js'
@@ -18,9 +19,9 @@ async function mergePDF(pdfList: Buffer[], options: { output: string; logger?: P
 }
 
 async function singlePdf(content: Content) {
-	const format = P.isArray(content.format)
+	const format = P.isObject(content.format)
 		? {
-				...flipDimensions(content.format, true),
+				...flipDimensions([content.format.width, content.format.height], true),
 		  }
 		: {
 				format: content.format,

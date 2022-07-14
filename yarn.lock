@@ -291,10 +291,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@digimuza/pdf-components@^0.0.6":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@digimuza/pdf-components/-/pdf-components-0.0.5.tgz#847d341b6825a39db7f2bbd60391043cba4b4060"
-  integrity sha512-UqCt5xVmoXTlojdCC7Zm8tqVtgwQq3PKoy1Np/zKsS8ksblQ9iaulUnz4BpQMf+NmgzQNZg3U1zcw7a+lteGdA==
+"@digimuza/pdf-components@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digimuza/pdf-components/-/pdf-components-0.0.8.tgz#985132a464499045908f55b8b5dbeec3b63b076c"
+  integrity sha512-KNbhOEiqq3H1PBY/sQ+o5JLeUsEkjWv27BymViaxjnV6dZVhHYyjwfjElCnzG5xSG57D0DYXZWr8AK5wcpiLfw==
   dependencies:
     preact "^10.0.0"
     preact-render-to-string "^5.2.0"
