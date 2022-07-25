@@ -1,7 +1,7 @@
 {
   "name": "@digimuza/pdf-tools",
   "description": "PDF generation library & generation utilities",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "publishConfig": {

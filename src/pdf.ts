@@ -1,7 +1,6 @@
 import * as P from 'ts-prime'
 import * as Jet from 'fs-jetpack'
 import { tmpNameSync } from 'tmp'
-import { PDFDocument } from 'pdf-lib'
 import { Content } from '@digimuza/pdf-components'
 import { flipDimensions } from '@digimuza/pdf-components/lib/utils'
 import { AsyncIterable } from 'ix'
