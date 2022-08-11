@@ -10,6 +10,7 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { register } from 'ts-node'
 import { generate } from '../pdf'
+import { RawContent } from '@digimuza/pdf-components/lib/components/html'
 register()
 
 function packageJson() {
@@ -79,7 +80,7 @@ export async function servePDF() {
 		return
 	}
 	const component = require(file)
-	const x = component.default as Content[]
+	const x = component.default as RawContent[]
 	const zxc = x.map((e) => {
 		return {
 			...e,

@@ -45,14 +45,14 @@ async function singlePdf(content: Content) {
  *
  * @returns {string} File to generated pdf file
  */
-export async function generate(args: { content: Content[]; output?: string; logger: Pick<Console, 'info' | 'error' | 'debug'> }) {
+export async function generate(args: { content: Content[]; output?: string; logger?: Pick<Console, 'info' | 'error' | 'debug'> }) {
 	let progress = 0
 	const pdfList = await AsyncIterable.from(args.content.map((e, index) => ({ ...e, index })))
 		.buffer(3)
 		.map((pdf) => {
 			return Promise.all(
 				pdf.map((c) => {
-					args.logger.info(`Generating (${c.index + 1}/${args.content.length}) page...`)
+					args.logger?.info(`Generating (${c.index + 1}/${args.content.length}) page...`)
 					return singlePdf(c)
 				})
 			)
